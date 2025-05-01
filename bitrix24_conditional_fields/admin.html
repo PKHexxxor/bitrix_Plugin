@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Bedingte Felder für Bitrix24 - Administration</title>
+    <script src="//api.bitrix24.com/api/v1/"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        h1 { color: #2a3640; }
+        .section { margin-bottom: 20px; padding: 15px; border: 1px solid #eee; }
+        .field-row { margin-bottom: 10px; }
+        label { display: block; margin-bottom: 5px; }
+        select, input { width: 100%; padding: 5px; box-sizing: border-box; }
+        button { padding: 8px 15px; background: #3498db; color: white; border: none; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Bedingte Felder für Bitrix24 - Administration</h1>
+        
+        <div class="section">
+            <h2>Layout-Konfiguration</h2>
+            <div id="layout-container">
+                <!-- Layout-Konfiguration wird hier dynamisch erstellt -->
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Bedingte Regeln</h2>
+            <div id="rules-container">
+                <!-- Regeln werden hier dynamisch erstellt -->
+            </div>
+            <button id="add-rule">Regel hinzufügen</button>
+        </div>
+        
+        <button id="save-config">Einstellungen speichern</button>
+        
+        <script>
+            // Admin-Interface initialisieren
+            BX24.ready(function() {
+                // Hole Daten vom Bitrix24
+                BX24.callMethod('crm.type.list', {}, function(result) {
+                    if (result.error()) {
+                        console.error('Fehler beim Laden der CRM-Typen:', result.error());
+                        return;
+                    }
+                    
+                    // CRM-Typen anzeigen
+                    var types = result.data();
+                    console.log('CRM-Typen:', types);
+                    
+                    // Hier würde die weitere Logik für das Admin-Interface implementiert
+                });
+            });
+        </script>
+    </div>
+</body>
+</html>
