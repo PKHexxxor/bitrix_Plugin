@@ -12,6 +12,10 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 
+// GitHub RAW-URLs
+$baseRawUrl = 'https://raw.githubusercontent.com/PKHexxxor/bitrix_Plugin/main/bitrix24_conditional_fields/';
+$scriptUrl = $baseRawUrl . 'script.js';
+
 // Bitrix24 JS SDK einbinden
 ?>
 <!DOCTYPE html>
@@ -50,6 +54,11 @@ header('Access-Control-Allow-Headers: Content-Type');
                 document.getElementById('status').innerHTML = 
                     '<div class="success">Die Anwendung wurde erfolgreich installiert!</div>' +
                     '<p>Die Anwendung ist jetzt einsatzbereit. Sie können die Smart-Prozesse öffnen, um das zweispaltige Layout zu sehen.</p>';
+                
+                // Script für bedingte Felder laden
+                var script = document.createElement('script');
+                script.src = '<?php echo $scriptUrl; ?>';
+                document.head.appendChild(script);
                 
                 // Installation abschließen
                 BX24.installFinish();

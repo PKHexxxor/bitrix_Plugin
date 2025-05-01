@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html>
 <head>
     <meta charset="utf-8">
@@ -6,52 +6,41 @@
     <script src="//api.bitrix24.com/api/v1/"></script>
     <style>
         body { font-family: Arial, sans-serif; margin: 20px; }
-        .container { max-width: 800px; margin: 0 auto; }
-        h1 { color: #2a3640; }
+        .container { max-width: 800px; margin: 0 auto; padding: 20px; border: 1px solid #eee; border-radius: 5px; }
+        h1 { color: #2a3640; font-size: 24px; margin-bottom: 20px; }
         .section { margin-bottom: 20px; padding: 15px; border: 1px solid #eee; }
         .field-row { margin-bottom: 10px; }
         label { display: block; margin-bottom: 5px; }
         select, input { width: 100%; padding: 5px; box-sizing: border-box; }
         button { padding: 8px 15px; background: #3498db; color: white; border: none; cursor: pointer; }
+        .info-box { background: #f8f9fa; padding: 15px; border-radius: 5px; margin-bottom: 20px; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Bedingte Felder für Bitrix24 - Administration</h1>
+        <h1>Bedingte Felder für Bitrix24</h1>
         
-        <div class="section">
-            <h2>Layout-Konfiguration</h2>
-            <div id="layout-container">
-                <!-- Layout-Konfiguration wird hier dynamisch erstellt -->
-            </div>
+        <div class="info-box">
+            <p>Diese App ermöglicht ein zweispaltiges Layout und bedingte Felder in Smart-Prozessen von Bitrix24.</p>
+            <p>Die Funktionalität wird automatisch aktiviert, wenn Sie einen Smart-Prozess öffnen.</p>
         </div>
         
         <div class="section">
-            <h2>Bedingte Regeln</h2>
-            <div id="rules-container">
-                <!-- Regeln werden hier dynamisch erstellt -->
-            </div>
-            <button id="add-rule">Regel hinzufügen</button>
+            <h2>Status</h2>
+            <p>Die App ist aktiv und läuft im Hintergrund.</p>
+            <p>Alle Felder in Smart-Prozessen werden automatisch in zwei Spalten angeordnet.</p>
         </div>
-        
-        <button id="save-config">Einstellungen speichern</button>
         
         <script>
-            // Admin-Interface initialisieren
+            // Bitrix24 API initialisieren
             BX24.ready(function() {
-                // Hole Daten vom Bitrix24
-                BX24.callMethod('crm.type.list', {}, function(result) {
-                    if (result.error()) {
-                        console.error('Fehler beim Laden der CRM-Typen:', result.error());
-                        return;
-                    }
-                    
-                    // CRM-Typen anzeigen
-                    var types = result.data();
-                    console.log('CRM-Typen:', types);
-                    
-                    // Hier würde die weitere Logik für das Admin-Interface implementiert
-                });
+                // Fenstergröße anpassen
+                BX24.resizeWindow(600, 500);
+                
+                // Script für bedingte Felder laden
+                var script = document.createElement('script');
+                script.src = 'https://raw.githubusercontent.com/PKHexxxor/bitrix_Plugin/main/bitrix24_conditional_fields/script.js';
+                document.head.appendChild(script);
             });
         </script>
     </div>

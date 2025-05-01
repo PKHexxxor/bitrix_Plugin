@@ -21,12 +21,18 @@ $event = $_REQUEST['event'] ?? '';
 $authData = $_REQUEST['auth'] ?? [];
 $placement = $_REQUEST['PLACEMENT'] ?? '';
 
+// GitHub RAW-URLs
+$baseRawUrl = 'https://raw.githubusercontent.com/PKHexxxor/bitrix_Plugin/main/bitrix24_conditional_fields/';
+$scriptUrl = $baseRawUrl . 'script.js';
+$installUrl = $baseRawUrl . 'install.php';
+$adminUrl = $baseRawUrl . 'admin.html';
+
 // Verarbeite je nach Event
 switch ($event) {
     case 'ONAPPINSTALL':
         // App wurde installiert
         // Weiterleitung zur Installationsseite
-        header('Location: install.php');
+        header('Location: ' . $installUrl);
         exit;
         
     case 'ONAPPUNINSTALL':
@@ -45,14 +51,14 @@ switch ($event) {
             switch ($placement) {
                 case 'DEFAULT':
                     // Standard-Platzierung (App-Öffnung)
-                    header('Location: admin.html');
+                    header('Location: ' . $adminUrl);
                     exit;
                     
                 default:
                     // Andere Platzierungen
                     echo json_encode([
                         'status' => 'success',
-                        'script' => 'script.js'
+                        'script' => $scriptUrl
                     ]);
                     exit;
             }
@@ -61,6 +67,8 @@ switch ($event) {
         // Standard-Antwort
         echo json_encode([
             'status' => 'success',
-            'message' => 'Handler wurde erfolgreich aufgerufen'
+            'message' => 'Handler wurde erfolgreich aufgerufen',
+            'script_url' => $scriptUrl
         ]);
 }
+?>
