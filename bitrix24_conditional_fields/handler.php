@@ -1,5 +1,9 @@
 <?php
-// Bitrix24 App Handler für bedingte Felder
+/**
+ * Haupthandler für die Bitrix24-App "Bedingte Felder"
+ */
+
+// Sicherheitsheader
 header('Content-Type: application/json');
 
 // CORS-Header für Anfragen aus Bitrix24
@@ -12,21 +16,51 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit(0);
 }
 
-// Bitrix24 Installation
-if (isset($_REQUEST['PLACEMENT']) && $_REQUEST['PLACEMENT'] === 'DEFAULT') {
-    // App wurde installiert
-    echo json_encode([
-        'status' => 'success',
-        'script' => 'https://raw.githubusercontent.com/yourusername/bitrix24_conditional_fields/main/script.js'
-    ]);
-    exit;
-}
-
-// Bitrix24 Anwendungslogik
-$authData = $_REQUEST['AUTH'] ?? [];
+// Hauptprogrammlogik
+$event = $_REQUEST['event'] ?? '';
+$authData = $_REQUEST['auth'] ?? [];
 $placement = $_REQUEST['PLACEMENT'] ?? '';
 
-// Rückgabe der Konfiguration für die App
-echo json_encode([
-    'status' => 'success'
-]);
+// Verarbeite je nach Event
+switch ($event) {
+    case 'ONAPPINSTALL':
+        // App wurde installiert
+        // Weiterleitung zur Installationsseite
+        header('Location: install.php');
+        exit;
+        
+    case 'ONAPPUNINSTALL':
+        // App wurde deinstalliert
+        echo json_encode([
+            'status' => 'success',
+            'message' => 'App wurde erfolgreich deinstalliert'
+        ]);
+        exit;
+        
+    default:
+        // Standard-Handler für normale App-Aufrufe
+        // Prüfe, ob es ein Placement ist
+        if (!empty($placement)) {
+            // Platzierungs-Handler
+            switch ($placement) {
+                case 'DEFAULT':
+                    // Standard-Platzierung (App-Öffnung)
+                    header('Location: admin.html');
+                    exit;
+                    
+                default:
+                    // Andere Platzierungen
+                    echo json_encode([
+                        'status' => 'success',
+                        'script' => 'script.js'
+                    ]);
+                    exit;
+            }
+        }
+        
+        // Standard-Antwort
+        echo json_encode([
+            'status' => 'success',
+            'message' => 'Handler wurde erfolgreich aufgerufen'
+        ]);
+}
